@@ -13,3 +13,5 @@ services:
     environment:
       STAGE: local
       DOMAINS: 'localhost -> http://host.docker.internal:3000'
+  redis:
+    image: 'redis'
