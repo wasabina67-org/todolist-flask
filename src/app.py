@@ -17,7 +17,11 @@ def api_todolist_get():
         todos = db.query(Todo).all()
         print(todos)
 
-    d = []
+    e1 = {"id": 1, "name": "task-1", "completed": False}
+    e2 = {"id": 2, "name": "task-2", "completed": True}
+    e3 = {"id": 3, "name": "task-3", "completed": False}
+    e4 = {"id": 4, "name": "task-4", "completed": True}
+    d = [e1, e2, e3, e4]
     return jsonify(d)
 
 
