@@ -24,6 +24,16 @@
         },
         methods: {
           async init() {
+            await axios.get('/api/todolist')
+              .then((resp) => {
+                this.todos = resp.data.map(t => ({
+                  ...t,
+                  selected: false
+                }))
+              })
+              .catch((error) => {
+                alert(error)
+              })
           }
         }
       })
