@@ -1,5 +1,8 @@
 from flask import Flask, jsonify, render_template
 
+from db import get_db
+from models import Todo
+
 app = Flask(__name__)
 
 
@@ -10,6 +13,10 @@ def index():
 
 @app.route("/api/todolist", methods=["GET"])
 def api_todolist_get():
+    with get_db() as db:
+        todos = db.query(Todo).all()
+        print(todos)
+
     d = []
     return jsonify(d)
 
