@@ -27,3 +27,9 @@ target_metadata = Base.metadata
 ```bash
 alembic revision --autogenerate
 ```
+
+## Step-5
+
+```bash
+alembic upgrade head
+```
