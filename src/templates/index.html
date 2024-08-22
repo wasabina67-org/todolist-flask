@@ -11,7 +11,11 @@
   <body>
     <div id="app">
       <ul class="todolist">
-        [[ todos ]]
+        <li v-for="todo in todos" :key="todo.id">
+          <input type="checkbox" :id="todo.id" v-model="todo.selected" />
+          <label :for="todo.id">[[ todo.name ]]</label>
+          <span v-if="todo.completed">- Done 👍</span>
+        </li>
       </ul>
     </div>
     <script>
