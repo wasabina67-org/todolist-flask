@@ -6,3 +6,10 @@ services:
     volumes:
       - ./src:/usr/src
     tty: true
+  https-portal3000:
+    image: steveltn/https-portal:latest
+    ports:
+      - '3443:443'
+    environment:
+      STAGE: local
+      DOMAINS: 'localhost -> http://host.docker.internal:3000'
