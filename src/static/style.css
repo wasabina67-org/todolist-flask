@@ -1,0 +1,15 @@
+.todolist {
+    padding-inline-start: 20px;
+}
+
+.todolist li {
+    list-style: none;
+}
+
+.todolist li input {
+    margin-right: 10px;
+}
+
+.todolist li span {
+    margin-left: 10px;
+}
