@@ -1,7 +1,8 @@
-from flask import Flask, jsonify, render_template
+from flask import Flask, jsonify, render_template, request
 
 from db import get_db
 from models import Todo
+from utils import status_success
 
 app = Flask(__name__)
 
@@ -23,6 +24,13 @@ def api_todolist_get():
     e4 = {"id": 4, "name": "task-4", "completed": True}
     d = [e1, e2, e3, e4]
     return jsonify(d)
+
+
+@app.route("/api/todolist", methods=["POST"])
+def api_todolist_post():
+    request_dict = request.get_json()
+    print(request_dict)
+    return jsonify(status_success())
 
 
 if __name__ == "__main__":
