@@ -10,6 +10,7 @@
   </head>
   <body>
     <div id="app">
+      <h2>Todolist</h2>
       <ul class="todolist">
         <li v-for="todo in todos" :key="todo.id">
           <input type="checkbox" :id="todo.id" v-model="todo.selected" />
@@ -17,13 +18,23 @@
           <span v-if="todo.completed">- Done 👍</span>
         </li>
       </ul>
+      <div class="createtodo">
+        <form @submit.prevent="createTodo">
+          <label>
+            <small>New Todo:</small>
+          </label><br />
+          <input type="text" id="newTodo" autocomplete="off" v-model="newTodo" />
+          <button type="submit">Submit</button>
+        </form>
+      </div>
     </div>
     <script>
       const app = Vue.createApp({
         delimiters: ['[[', ']]'],
         data() {
           return {
-            todos: []
+            todos: [],
+            newTodo: ''
           }
         },
         async created() {
@@ -37,6 +48,20 @@
                   ...t,
                   selected: false
                 }))
+              })
+              .catch((error) => {
+                alert(error)
+              })
+            this.newTodo = ''
+          },
+          async createTodo() {
+            await axios.post('/api/todolist', { name: this.newTodo })
+              .then((resp) => {
+                if (resp.data.status === 'success') {
+                  this.init()
+                } else {
+                  alert(resp.data.message)
+                }
               })
               .catch((error) => {
                 alert(error)

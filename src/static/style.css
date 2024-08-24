@@ -1,3 +1,8 @@
+h2 {
+    margin-left: 20px;
+    margin-bottom: 0px;
+}
+
 .todolist {
     padding-inline-start: 20px;
 }
@@ -12,4 +17,12 @@
 
 .todolist li span {
     margin-left: 10px;
+}
+
+.createtodo {
+    padding-left: 20px;
+}
+
+.createtodo input {
+    margin-right: 10px;
 }
