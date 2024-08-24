@@ -10,6 +10,6 @@ class TodoValidator:
 
     def validate_name(self):
         if not self.name:
-            raise ValueError("")
+            raise ValueError("Todo must be a non-empty string.")
         if len(self.name) > 80:
-            raise ValueError("")
+            raise ValueError("Todo must not be longer than 80 characters.")
