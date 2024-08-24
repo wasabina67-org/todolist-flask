@@ -16,15 +16,12 @@ def index():
 @app.route("/api/todolist", methods=["GET"])
 def api_todolist_get():
     with get_db() as db:
-        todos = db.query(Todo).all()
-        print(todos)
-
-    e1 = {"id": 1, "name": "task-1", "completed": False}
-    e2 = {"id": 2, "name": "task-2", "completed": True}
-    e3 = {"id": 3, "name": "task-3", "completed": False}
-    e4 = {"id": 4, "name": "task-4", "completed": True}
-    d = [e1, e2, e3, e4]
-    return jsonify(d)
+        return jsonify(
+            [
+                {"id": t.id, "name": t.name, "completed": t.completed}
+                for t in db.query(Todo).all()
+            ]
+        )
 
 
 @app.route("/api/todolist", methods=["POST"])
