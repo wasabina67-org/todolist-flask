@@ -65,10 +65,12 @@
             this.todos.forEach(t => { t.selected = true })
           },
           async doneTodo() {
-
+            const ids = this.todos.filter(t => t.selected).map(t => t.id)
+            console.log(ids)
           },
           async deleteTodo() {
-
+            const ids = this.todos.filter(t => t.selected).map(t => t.id)
+            console.log(ids)
           },
           async createTodo() {
             await axios.post('/api/todolist', { name: this.newTodo })
