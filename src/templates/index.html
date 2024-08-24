@@ -62,7 +62,7 @@
             this.newTodo = ''
           },
           selectAll() {
-
+            this.todos.forEach(t => { t.selected = true })
           },
           async doneTodo() {
 
