@@ -19,6 +19,11 @@ h2 {
     margin-left: 10px;
 }
 
+.option {
+    padding-left: 20px;
+    margin-bottom: 10px;
+}
+
 .createtodo {
     padding-left: 20px;
 }

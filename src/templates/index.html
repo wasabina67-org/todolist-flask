@@ -18,6 +18,13 @@
           <span v-if="todo.completed">- Done 👍</span>
         </li>
       </ul>
+      <div class="option">
+        <a href="#" @click.prevent="selectAll">Select all</a>
+        &nbsp;/&nbsp;
+        <a href="#" @click.prevent="doneTodo">Done</a>
+        &nbsp;/&nbsp;
+        <a href="#" @click.prevent="deleteTodo">Delete</a>
+      </div>
       <div class="createtodo">
         <form @submit.prevent="createTodo">
           <label>
@@ -53,6 +60,15 @@
                 alert(error)
               })
             this.newTodo = ''
+          },
+          selectAll() {
+
+          },
+          async doneTodo() {
+
+          },
+          async deleteTodo() {
+
           },
           async createTodo() {
             await axios.post('/api/todolist', { name: this.newTodo })
