@@ -2,7 +2,7 @@ from flask import Flask, jsonify, render_template, request
 
 from db import get_db
 from models import Todo
-from utils import status_success, status_error
+from utils import status_error, status_success
 from validators import TodoValidator
 
 app = Flask(__name__)
