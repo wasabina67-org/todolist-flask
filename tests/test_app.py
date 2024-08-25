@@ -27,7 +27,7 @@ def test_api_todolist_get_has_rec(client, mocker):
             Todo(id=3, name="task-3", completed=True),
             Todo(id=4, name="task-4", completed=False),
             Todo(id=5, name="task-5", completed=True),
-        ]
+        ],
     )
 
     rv = client.get("/api/todolist")
