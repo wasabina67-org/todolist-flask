@@ -63,9 +63,7 @@ def api_todolist_delete():
 
 def done_todos(ids):
     with get_db() as db:
-        todos = (
-            db.query(Todo).filter(Todo.id.in_(ids)).all()
-        )  # noqa
+        todos = db.query(Todo).filter(Todo.id.in_(ids)).all()
         for t in todos:
             t.completed = True
         db.commit()
