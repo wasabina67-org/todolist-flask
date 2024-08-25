@@ -128,3 +128,14 @@ def test_api_todolist_done_post_commit_once(client, mocker):
     mock_db.assert_called_once()
     db_instance = mock_db.return_value.__enter__.return_value
     db_instance.commit.assert_called_once()
+
+
+def test_api_todolist_done_post_check_args(client, mocker):
+    mock = mocker.patch("app.done_todos", return_value=None)
+
+    ids = [4, 5, 6]
+    rv = client.post("/api/todolist/done", json={"ids": ids})
+    assert rv.status_code == 200
+    assert rv.json == status_success()
+
+    mock.assert_called_once_with(ids=ids)
