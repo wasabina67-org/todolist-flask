@@ -22,7 +22,7 @@ def test_api_todolist_get(client, mocker):
 def test_api_todolist_post(client, mocker):
     mocker.patch("app.insert_todo", return_value=None)
 
-    rv = client.post("/api/todolist", json={"name": "task-2"})
+    rv = client.post("/api/todolist", json={"name": "a" * 80})
     assert rv.status_code == 200
     assert rv.json == status_success()
 
