@@ -42,9 +42,7 @@ def api_todolist_delete():
     try:
         request_dict = request.get_json()
         with get_db() as db:
-            db.query(Todo).filter(
-                Todo.id.in_(request_dict["ids"])
-            ).delete()
+            db.query(Todo).filter(Todo.id.in_(request_dict["ids"])).delete()
             db.commit()
         return jsonify(status_success())
     except Exception as ex:
@@ -56,9 +54,9 @@ def api_todolist_done_post():
     try:
         request_dict = request.get_json()
         with get_db() as db:
-            todos = db.query(Todo).filter(
-                Todo.id.in_(request_dict["ids"])
-            ).all()
+            todos = (
+                db.query(Todo).filter(Todo.id.in_(request_dict["ids"])).all()
+            )  # noqa
             for t in todos:
                 t.completed = True
             db.commit()
