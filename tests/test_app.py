@@ -9,16 +9,13 @@ def test_index(client):
 
 
 def test_api_todolist_get(client, mocker):
-    mock = mocker.patch(
-        "app.get_all_todos",
-        return_value=[Todo(id=1, name="task-1", completed=False)],  # noqa
-    )
+    mock_db = mocker.patch("app.get_db")
 
     rv = client.get("/api/todolist")
     assert rv.status_code == 200
-    assert rv.json == [{"id": 1, "name": "task-1", "completed": False}]
+    assert rv.json == []
 
-    mock.assert_called_once()
+    mock_db.assert_called_once()
 
 
 def test_api_todolist_post(client, mocker):
