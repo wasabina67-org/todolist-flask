@@ -81,12 +81,28 @@ def test_api_todolist_post_error_too_long(client, mocker):
     mock.assert_not_called()
 
 
-def test_api_todolist_delete(client, mocker):
-    mocker.patch("app.delete_todos", return_value=None)
+def test_api_todolist_delete_commit_once(client, mocker):
+    mock_db = mocker.patch("app.get_db")
 
-    rv = client.delete("/api/todolist", json={"ids": [1, 2, 3]})
+    ids = [1, 2, 3]
+    rv = client.delete("/api/todolist", json={"ids": ids})
     assert rv.status_code == 200
     assert rv.json == status_success()
+
+    mock_db.assert_called_once()
+    db_instance = mock_db.return_value.__enter__.return_value
+    db_instance.commit.assert_called_once()
+
+
+def test_api_todolist_delete_check_args(client, mocker):
+    mock = mocker.patch("app.delete_todos", return_value=None)
+
+    ids = [4, 5, 6]
+    rv = client.delete("/api/todolist", json={"ids": ids})
+    assert rv.status_code == 200
+    assert rv.json == status_success()
+
+    mock.assert_called_once_with(ids=ids)
 
 
 def test_api_todolist_done_post(client, mocker):
