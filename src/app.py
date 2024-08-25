@@ -37,5 +37,15 @@ def api_todolist_post():
         return jsonify(status_error(ex))
 
 
+@app.route("/api/todolist", methods=["DELETE"])
+def api_todolist_delete():
+    return
+
+
+@app.route("/api/todolist/done", methods=["POST"])
+def api_todolist_done_post():
+    return
+
+
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=3000, debug=True)
