@@ -13,15 +13,19 @@ def index():
     return render_template("index.html")
 
 
+def get_all_todos():
+    with get_db() as db:
+        return db.query(Todo).all()
+
+
 @app.route("/api/todolist", methods=["GET"])
 def api_todolist_get():
-    with get_db() as db:
-        return jsonify(
-            [
-                {"id": t.id, "name": t.name, "completed": t.completed}
-                for t in db.query(Todo).all()
-            ]
-        )
+    return jsonify(
+        [
+            {"id": t.id, "name": t.name, "completed": t.completed}
+            for t in get_all_todos()
+        ]
+    )
 
 
 @app.route("/api/todolist", methods=["POST"])
