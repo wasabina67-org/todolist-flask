@@ -28,14 +28,18 @@ def api_todolist_get():
     )
 
 
+def insert_todo(name):
+    with get_db() as db:
+        db.add(Todo(name=name))
+        db.commit()
+
+
 @app.route("/api/todolist", methods=["POST"])
 def api_todolist_post():
     try:
         request_dict = request.get_json()
         tv = TodoValidator(name=request_dict["name"])
-        with get_db() as db:
-            db.add(Todo(name=tv.name))
-            db.commit()
+        insert_todo(name=tv.name)
         return jsonify(status_success())
     except Exception as ex:
         return jsonify(status_error(ex))
