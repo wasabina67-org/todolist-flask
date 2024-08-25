@@ -1,5 +1,5 @@
 from models import Todo  # type: ignore
-from utils import status_error, status_success
+from utils import status_error, status_success  # type: ignore
 
 
 def test_index(client):
@@ -42,4 +42,4 @@ def test_api_todolist_post_error_2(client, mocker):
     assert rv.status_code == 200
     assert rv.json == status_error(
         "Todo must not be longer than 80 characters."
-    )
+    )  # noqa
