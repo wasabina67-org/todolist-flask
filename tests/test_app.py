@@ -105,6 +105,18 @@ def test_api_todolist_delete_check_args(client, mocker):
     mock.assert_called_once_with(ids=ids)
 
 
+def test_api_todolist_delete_db_error(client, mocker):
+    mock = mocker.patch("app.delete_todos")
+    mock.side_effect = Exception("Database error")
+
+    ids = [7, 8, 9]
+    rv = client.delete("/api/todolist", json={"ids": ids})
+    assert rv.status_code == 200
+    assert rv.json == status_error("Database error")
+
+    mock.assert_called_once_with(ids=ids)
+
+
 def test_api_todolist_done_post(client, mocker):
     mocker.patch("app.done_todos", return_value=None)
 
