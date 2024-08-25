@@ -19,11 +19,19 @@ def test_api_todolist_get(client, mocker):
 
 
 def test_api_todolist_post(client, mocker):
-    mocker.patch("app.insert_todo", return_value=None)
+    mock_db = mocker.patch("app.get_db")
 
-    rv = client.post("/api/todolist", json={"name": "a" * 80})
+    name = "a" * 80
+    rv = client.post("/api/todolist", json={"name": name})
     assert rv.status_code == 200
     assert rv.json == status_success()
+
+    mock_db.assert_called_once()
+    db_instance = mock_db.return_value.__enter__.return_value
+    todo_instance = db_instance.add.call_args[0][0]
+    assert isinstance(todo_instance, Todo)
+    assert todo_instance.name == name
+    db_instance.commit.assert_called_once()
 
 
 def test_api_todolist_post_error(client, mocker):
