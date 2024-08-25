@@ -44,7 +44,18 @@ def api_todolist_delete():
 
 @app.route("/api/todolist/done", methods=["POST"])
 def api_todolist_done_post():
-    return
+    try:
+        request_dict = request.get_json()
+        with get_db() as db:
+            todos = db.query(Todo).filter(
+                Todo.id.in_(request_dict["ids"])
+            ).all()
+            for t in todos:
+                t.completed = True
+            db.commit()
+        return jsonify(status_success())
+    except Exception as ex:
+        return jsonify(status_error(ex))
 
 
 if __name__ == "__main__":
