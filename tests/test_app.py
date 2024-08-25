@@ -18,7 +18,7 @@ def test_api_todolist_get(client, mocker):
     assert rv.status_code == 200
     assert rv.json == [{"id": 1, "name": "task-1", "completed": False}]
 
-    mock.assert_called()
+    mock.assert_called_once()
 
 
 def test_api_todolist_post(client, mocker):
