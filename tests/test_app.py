@@ -8,7 +8,7 @@ def test_index(client):
     assert b"<!DOCTYPE html>" in rv.data
 
 
-def test_api_todolist_get(client, mocker):
+def test_api_todolist_get_empty(client, mocker):
     mock_db = mocker.patch("app.get_db")
 
     rv = client.get("/api/todolist")
@@ -16,6 +16,31 @@ def test_api_todolist_get(client, mocker):
     assert rv.json == []
 
     mock_db.assert_called_once()
+
+
+def test_api_todolist_get_has_rec(client, mocker):
+    mock = mocker.patch(
+        "app.get_all_todos",
+        return_value=[
+            Todo(id=1, name="task-1", completed=False),
+            Todo(id=2, name="task-2", completed=True),
+            Todo(id=3, name="task-3", completed=True),
+            Todo(id=4, name="task-4", completed=False),
+            Todo(id=5, name="task-5", completed=True),
+        ]
+    )
+
+    rv = client.get("/api/todolist")
+    assert rv.status_code == 200
+    assert rv.json == [
+        {"id": 1, "name": "task-1", "completed": False},
+        {"id": 2, "name": "task-2", "completed": True},
+        {"id": 3, "name": "task-3", "completed": True},
+        {"id": 4, "name": "task-4", "completed": False},
+        {"id": 5, "name": "task-5", "completed": True},
+    ]
+
+    mock.assert_called_once()
 
 
 def test_api_todolist_post(client, mocker):
