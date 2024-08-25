@@ -61,21 +61,21 @@ def api_todolist_delete():
         return jsonify(status_error(ex))
 
 
-def done_todos():
-    pass
+def done_todos(ids):
+    with get_db() as db:
+        todos = (
+            db.query(Todo).filter(Todo.id.in_(ids)).all()
+        )  # noqa
+        for t in todos:
+            t.completed = True
+        db.commit()
 
 
 @app.route("/api/todolist/done", methods=["POST"])
 def api_todolist_done_post():
     try:
         request_dict = request.get_json()
-        with get_db() as db:
-            todos = (
-                db.query(Todo).filter(Todo.id.in_(request_dict["ids"])).all()
-            )  # noqa
-            for t in todos:
-                t.completed = True
-            db.commit()
+        done_todos(ids=request_dict["ids"])
         return jsonify(status_success())
     except Exception as ex:
         return jsonify(status_error(ex))
