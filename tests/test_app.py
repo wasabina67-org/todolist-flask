@@ -59,22 +59,26 @@ def test_api_todolist_post(client, mocker):
     db_instance.commit.assert_called_once()
 
 
-def test_api_todolist_post_error(client, mocker):
-    mocker.patch("app.insert_todo", return_value=None)
+def test_api_todolist_post_error_empty(client, mocker):
+    mock = mocker.patch("app.insert_todo", return_value=None)
 
     rv = client.post("/api/todolist", json={"name": ""})
     assert rv.status_code == 200
     assert rv.json == status_error("Todo must be a non-empty string.")
 
+    mock.assert_not_called()
 
-def test_api_todolist_post_error_2(client, mocker):
-    mocker.patch("app.insert_todo", return_value=None)
+
+def test_api_todolist_post_error_too_long(client, mocker):
+    mock = mocker.patch("app.insert_todo", return_value=None)
 
     rv = client.post("/api/todolist", json={"name": "a" * 81})
     assert rv.status_code == 200
     assert rv.json == status_error(
         "Todo must not be longer than 80 characters."
     )  # noqa
+
+    mock.assert_not_called()
 
 
 def test_api_todolist_delete(client, mocker):
