@@ -66,11 +66,31 @@
           },
           async doneTodo() {
             const ids = this.todos.filter(t => t.selected).map(t => t.id)
-            console.log(ids)
+            await axios.post('/api/todolist/done', { ids: ids })
+              .then((resp) => {
+                if (resp.data.status === 'success') {
+                  this.init()
+                } else {
+                  alert(resp.data.message)
+                }
+              })
+              .catch((error) => {
+                alert(error)
+              })
           },
           async deleteTodo() {
             const ids = this.todos.filter(t => t.selected).map(t => t.id)
-            console.log(ids)
+            await axios.delete('/api/todolist', { data: { ids: ids } })
+            .then((resp) => {
+                if (resp.data.status === 'success') {
+                  this.init()
+                } else {
+                  alert(resp.data.message)
+                }
+              })
+              .catch((error) => {
+                alert(error)
+              })
           },
           async createTodo() {
             await axios.post('/api/todolist', { name: this.newTodo })
