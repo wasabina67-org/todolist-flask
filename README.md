@@ -14,3 +14,9 @@ python src/app.py
 ```
 
 Open http://localhost:3000/ or https://localhost:3443/
+
+## pytest
+
+```bash
+pytest .
+```
